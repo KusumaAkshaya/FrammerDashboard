@@ -1,18 +1,39 @@
 import KPIcard from "./KPIcard"
 
-export default function KPIGrid({data}:any){
+function formatTitle(key: string) {
 
-return(
+  return key
+    .replace(/_/g, " ")
+    .replace(/\b\w/g, (l) => l.toUpperCase())
 
-<div className="grid grid-cols-4 gap-6">
+}
 
-<KPIcard title="Total Uploaded" value={data.uploaded}/>
-<KPIcard title="Total Processed" value={data.processed}/>
-<KPIcard title="Total Published" value={data.published}/>
-<KPIcard title="Publish Rate" value={`${data.publish_rate}%`}/>
+export default function KPIGrid({ data }: any) {
 
-</div>
+  if (!data) {
+    return (
+      <div className="text-white text-lg">
+        Loading KPIs...
+      </div>
+    )
+  }
 
-)
+  return (
+
+    <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-6 items-stretch">
+
+      {Object.entries(data).map(([key, value]) => (
+
+        <KPIcard
+          key={key}
+          title={formatTitle(key)}
+          value={value}
+        />
+
+      ))}
+
+    </div>
+
+  )
 
 }

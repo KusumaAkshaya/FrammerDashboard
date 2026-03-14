@@ -11,34 +11,53 @@ import AlertsSlider from "../components/AlertSlider"
 import {
 fetchKPIs,
 fetchMonthlyTrend,
+fetchMonthDuration,
 fetchPlatforms,
 fetchChannels,
 fetchAlerts
 } from "@/services/api"
 
+
+type KPI = {
+  uploaded: number
+  published: number
+  created: number
+  published_rate: number
+}
+
 export default function Dashboard(){
 
-const [kpis,setKpis]=useState({})
+const [kpis,setKpis]=useState<KPI |null>(null)
 const [trend,setTrend]=useState([])
 const [platform,setPlatform]=useState([])
 const [channels,setChannels]=useState([])
+const [types,setTypes]=useState([])
+const [users,setUsers]=useState([])
 const [alerts,setAlerts]=useState([])
+const [duration, setDuration] = useState([])
 
+const [selectedPlatform,setSelectedPlatform] = useState("")
 const handlePlatformClick=async(platform:string)=>{
-
+setSelectedPlatform(platform)
 const res=await fetchChannels(platform)
 
-setChannels(res.data)
+setChannels(res.data.channels)
+setTypes(res.data.types)
+setUsers(res.data.users)
 
 }
 
 useEffect(()=>{
 
-fetchKPIs().then(r=>setKpis(r.data))
-fetchMonthlyTrend().then(r=>setTrend(r.data))
+fetchKPIs().then(r=>
+    {  
+        setKpis(r.data)
+    })
+fetchMonthlyTrend().then(
+    r=>{setTrend(r.data)})
 fetchPlatforms().then(r=>setPlatform(r.data))
 fetchAlerts().then(r=>setAlerts(r.data))
-
+fetchMonthDuration().then(r=>setDuration(r.data))
 },[])
 
 return(
@@ -49,13 +68,14 @@ return(
 
 <KPIGrid data={kpis}/>
 
-<TrendChart data={trend}/>
+<TrendChart countData={trend} durationData={duration}/>
 
 <div className="grid grid-cols-2 gap-6">
 
 <PlatformPie data={platform} onSelect={handlePlatformClick}/>
 
-<ChannelBar data={channels}/>
+<ChannelBar channels={channels} types={types}
+users={users} platform={selectedPlatform} />
 
 </div>
 

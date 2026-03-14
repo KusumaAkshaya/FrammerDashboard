@@ -18,9 +18,23 @@
     --foreground: #ededed;
   }
 }
-
+body {
+  font-family: 'Inter', sans-serif;
+}
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+}
+.tab{
+background:#1e293b;
+color:#cbd5f5;
+padding:6px 12px;
+border-radius:6px;
+font-size:14px;
+cursor:pointer;
+}
+
+.tab:hover{
+background:#6366f1;
+color:white;
 }

@@ -24,7 +24,7 @@ return(
 
 <div className="bg-red-900/30 border border-red-700 p-4 rounded-xl">
 
-<p className="text-400">
+<p className="text-400 text-white">
 
 ⚠ {alerts[index]}
 
