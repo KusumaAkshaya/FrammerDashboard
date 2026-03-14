@@ -1,9 +1,5 @@
-import Image from "next/image";
-import Dashboard from "./dashboard/page";
+import { redirect } from "next/navigation";
 
 export default function Home() {
-  return (<div className="bg-slate-800" >
-    <Dashboard />
-    </div>
-  );
+  redirect("/dashboard");
 }
