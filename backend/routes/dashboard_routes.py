@@ -2,6 +2,7 @@ from fastapi import APIRouter
 from services.dashboard_service import (
     get_kpis,
     monthly_trend,
+    monthly_duration_trend,
     platform_distribution,
     channel_contribution,
     alerts
@@ -10,14 +11,20 @@ from services.dashboard_service import (
 router = APIRouter(prefix="/dashboard")
 
 
-@router.get("/kpis")
-def kpis():
+@router.get("/kpi")
+def kpi():
     return get_kpis()
 
 
 @router.get("/monthly-trend")
 def trend():
     return monthly_trend()
+
+
+@router.get("/monthly-duration-trend")
+def duration_trend():
+    return monthly_duration_trend()
+
 
 
 @router.get("/platforms")
@@ -33,3 +40,4 @@ def channels(platform: str):
 @router.get("/alerts")
 def get_alerts():
     return alerts()
+

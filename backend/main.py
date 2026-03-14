@@ -5,7 +5,6 @@ from routes.dashboard_routes import router
 
 app = FastAPI()
 
-
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
