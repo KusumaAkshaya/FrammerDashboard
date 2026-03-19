@@ -24,3 +24,10 @@ def load_monthly_duration():
 
 def load_users():
     return pd.read_csv("data/combined_data(2025-3-1-2026-2-28) by channel and user.csv")
+
+def load_input():
+    return pd.read_csv('data\combined_data(2025-3-1-2026-2-28) by input type (1).csv')
+
+def load_output():
+    return pd.read_csv('data\combined_data(2025-3-1-2026-2-28) by output type (1).csv')
+
