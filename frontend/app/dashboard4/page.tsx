@@ -1,36 +1,43 @@
-export default function Dashboard4Page() {
+"use client"
+
+import OutputTypeDistribution from "./components4/OutputTypeDistribution"
+import OutputTrend from "./components4/OutputTrend"
+import OutputFunnel from "./components4/OutputFunnel"
+import OutputMixCounts from "./components4/OutputMixCounts"
+import OutputMixTable from "./components4/OutputMixTable"
+import InputOutputMatrix from "./components4/InputOutputMatrix"
+
+<div className="bg-slate-800/50 p-4 rounded-xl border border-slate-700">
+  <h2 className="font-semibold mb-2 text-white">Insights</h2>
+  <ul className="text-sm space-y-1 text-gray-300">
+    <li>• Key Moments have highest creation volume</li>
+    <li>• Summary has lowest publish rate</li>
+    <li>• Chapters show high drop-off</li>
+  </ul>
+</div>
+
+export default function Page() {
+
   return (
-    <div className="min-h-screen bg-slate-950 text-white p-6">
-      <div className="mb-6">
-        <h1 className="text-3xl font-bold">Dashboard 4</h1>
-        <p className="text-slate-400 mt-2">
-          User, language, channel, and platform comparison.
-        </p>
+    <div className="p-6 space-y-8">
+
+      {/* PAGE TITLE */}
+      <h1 className="text-2xl font-bold text-white">
+        Output Mix & Publishing
+      </h1>
+
+      {/* ================= TOP ROW ================= */}
+      <div className="grid grid-cols-2 gap-6">
+
+        <OutputTypeDistribution />
+        <OutputMixCounts />
+
       </div>
 
-      <div className="bg-slate-900 rounded-xl p-6 shadow mb-8">
-        <h2 className="text-xl font-semibold mb-4">Dimension Comparison</h2>
-        <p className="text-slate-300">
-          Add filters here so users can pick any two dimensions like user,
-          language, platform, output type, or channel.
-        </p>
-      </div>
+      {/* ================= TREND ================= */}
+      <OutputTrend />
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-slate-900 rounded-xl p-6 shadow min-h-[260px]">
-          <h2 className="text-xl font-semibold mb-4">Dimension 1 vs Dimension 2</h2>
-          <p className="text-slate-300">
-            This area can show a heatmap, grouped bar chart, or stacked chart.
-          </p>
-        </div>
-
-        <div className="bg-slate-900 rounded-xl p-6 shadow min-h-[260px]">
-          <h2 className="text-xl font-semibold mb-4">Detailed Breakdown</h2>
-          <p className="text-slate-300">
-            Show drilldown insights for the selected pair of dimensions.
-          </p>
-        </div>
-      </div>
+     
     </div>
-  );
+  )
 }
