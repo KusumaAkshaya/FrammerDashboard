@@ -3,12 +3,9 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from routes.dashboard_routes import router as dashboard_router
 from routes.dashboard3_routes import router as dashboard3_router
-<<<<<<< HEAD
 from routes.dashboard2_routes import router2 as dashboard2_router
 from routes.dashboard4_routes import router4 as dashboard4_router
-=======
->>>>>>> e24dbbd (added navbar and dashboard 3)
-from routes.usage_routes import router as usage_router  # if using
+from routes.usage_routes import router as usage_router  
 
 app = FastAPI()
 
@@ -36,9 +33,6 @@ def home():
 # routers
 app.include_router(dashboard_router, prefix="/api")
 app.include_router(dashboard3_router, prefix="/api")
-<<<<<<< HEAD
-app.include_router(dashboard4_router, prefix="/api") 
-app.include_router(dashboard2_router, prefix="/api") 
-=======
-app.include_router(usage_router, prefix="/api")  # if needed
->>>>>>> e24dbbd (added navbar and dashboard 3)
+app.include_router(dashboard2_router, prefix="/api")
+app.include_router(dashboard4_router, prefix="/api")
+app.include_router(usage_router, prefix="/api")  
