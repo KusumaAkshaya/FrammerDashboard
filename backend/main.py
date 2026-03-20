@@ -3,6 +3,8 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from routes.dashboard_routes import router as dashboard_router
 from routes.dashboard3_routes import router as dashboard3_router
+from routes.dashboard2_routes import router2 as dashboard2_router
+from routes.dashboard4_routes import router4 as dashboard4_router
 from routes.usage_routes import router as usage_router  # if using
 
 app = FastAPI()
@@ -31,4 +33,5 @@ def home():
 # routers
 app.include_router(dashboard_router, prefix="/api")
 app.include_router(dashboard3_router, prefix="/api")
-app.include_router(usage_router, prefix="/api")  # if needed
+app.include_router(dashboard4_router, prefix="/api") 
+app.include_router(dashboard2_router, prefix="/api") 
