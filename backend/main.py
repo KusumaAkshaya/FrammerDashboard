@@ -14,3 +14,7 @@ app.add_middleware(
 )
 
 app.include_router(router)
+
+from routes.dashboard2_routes import router2
+
+app.include_router(router2)
