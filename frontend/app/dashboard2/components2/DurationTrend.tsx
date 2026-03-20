@@ -2,13 +2,14 @@
 
 import { useEffect, useState } from "react"
 import {
-  LineChart,
-  Line,
+  AreaChart,
+  Area,
   XAxis,
   YAxis,
   Tooltip,
   ResponsiveContainer,
-  Legend
+  Legend,
+  CartesianGrid
 } from "recharts"
 
 import { getDurationTrend } from "@/services/api2"
@@ -28,16 +29,17 @@ export default function DurationTrend() {
   }
 
   return (
+    <div className="bg-[#020e2b] p-6 rounded-2xl shadow-lg">
 
-    <div className="bg-[#020e2b] p-6 rounded-xl">
-
-      <div className="flex justify-between items-center mb-4">
+      {/* Header */}
+      <div className="flex justify-between items-center mb-5">
 
         <h2 className="text-white font-semibold text-lg">
           Duration Trend (Hours)
         </h2>
 
-        <div className="flex gap-2">
+        {/* Tabs */}
+        <div className="flex gap-2 bg-[#0b1a3a] p-1 rounded-lg">
 
           {["month","week","day"].map((p)=>(
             <button
@@ -48,8 +50,10 @@ export default function DurationTrend() {
               ${
                 period === p
                 ? "bg-green-500 text-black"
-                : "bg-gray-700 text-white hover:bg-gray-600"
-              }${p !== "month" ? "opacity-40 cursor-not-allowed" : ""}`}
+                : "text-gray-300 hover:bg-gray-700"
+              }
+              ${p !== "month" ? "opacity-40 cursor-not-allowed" : ""}
+              `}
             >
               {p}
             </button>
@@ -59,44 +63,77 @@ export default function DurationTrend() {
 
       </div>
 
+      {/* Chart */}
       <ResponsiveContainer width="100%" height={320}>
 
-        <LineChart data={data}>
+        <AreaChart data={data}>
+
+          {/* Gradients */}
+          <defs>
+            <linearGradient id="durUpload" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="5%" stopColor="#6366F1" stopOpacity={0.75}/>
+              <stop offset="95%" stopColor="#6366F1" stopOpacity={0}/>
+            </linearGradient>
+
+            <linearGradient id="durProcessed" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="5%" stopColor="#FF4D5A" stopOpacity={0.75}/>
+              <stop offset="95%" stopColor="#FF4D5A" stopOpacity={0}/>
+            </linearGradient>
+
+            <linearGradient id="durPublished" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="5%" stopColor="#14B8A6" stopOpacity={0.75}/>
+              <stop offset="95%" stopColor="#14B8A6" stopOpacity={0}/>
+            </linearGradient>
+          </defs>
+
+          <CartesianGrid strokeDasharray="3 3" stroke="#1a2540" />
 
           <XAxis dataKey="period" stroke="#9CA3AF"/>
-
           <YAxis stroke="#9CA3AF"/>
 
-          <Tooltip />
+          <Tooltip
+            contentStyle={{
+              backgroundColor: "#020e2b",
+              border: "1px solid #1f2a44",
+              borderRadius: "8px"
+            }}
+            labelStyle={{ color: "#fff" }}
+          />
 
           <Legend />
 
-          <Line
+          {/* Stacked Areas */}
+          <Area
             type="monotone"
             dataKey="uploaded_duration"
+            stackId="1"
             stroke="#6366F1"
-            strokeWidth={3}
+            fill="url(#durUpload)"
+            strokeWidth={2}
           />
 
-          <Line
+          <Area
             type="monotone"
             dataKey="processed_duration"
-            stroke="#22C55E"
-            strokeWidth={3}
+            stackId="1"
+            stroke="#FF4D5A"
+            fill="url(#durProcessed)"
+            strokeWidth={2}
           />
 
-          <Line
+          <Area
             type="monotone"
             dataKey="published_duration"
-            stroke="#EC4899"
-            strokeWidth={3}
+            stackId="1"
+            stroke="#14B8A6"
+            fill="url(#durPublished)"
+            strokeWidth={2}
           />
 
-        </LineChart>
+        </AreaChart>
 
       </ResponsiveContainer>
 
     </div>
-
   )
 }

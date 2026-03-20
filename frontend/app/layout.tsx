@@ -1,10 +1,14 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import { Inter } from "next/font/google";
+import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
-import Navbar from "./componentNav/Navbar";
 
-const inter = Inter({ subsets: ["latin"] });
+import Navbar from "./componentNav/Navbar";
+import ClientLayout from "./components/ClientLayout";// new file
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+});
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,17 +27,18 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
       <body
-        className={`${inter.className} ${geistSans.variable} ${geistMono.variable} antialiased bg-slate-950 text-white`}
+        className={`${inter.variable} ${geistSans.variable} ${geistMono.variable} antialiased bg-slate-950 text-white`}
       >
         <Navbar />
 
-        <main className="">{children}</main>
+        {/* CLIENT SIDE SPLIT LOGIC */}
+        <ClientLayout>{children}</ClientLayout>
       </body>
     </html>
   );
