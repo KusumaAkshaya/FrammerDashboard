@@ -1,6 +1,6 @@
 import { DistributionDimension, DistributionResponse } from "./dashboard3-types";
 
-const BASE_URL = "http://127.0.0.1:8000/api";
+const BASE_URL = `${process.env.NEXT_PUBLIC_API_URL}/api`
 
 export async function fetchDistributionData(
   dimension: DistributionDimension,
