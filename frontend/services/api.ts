@@ -1,21 +1,41 @@
-import axios from "axios"
+"use client";
 
+import axios from "axios";
+
+// ✅ Use environment variable (works in production)
 const API = axios.create({
-  baseURL: "http://127.0.0.1:8000/api"
-})
+  baseURL: `${process.env.NEXT_PUBLIC_API_URL}/api`,
+});
 
-export const fetchKPIs = () => API.get("/dashboard/kpi")
+// ✅ Optional: Debug (remove later if not needed)
+API.interceptors.request.use((config) => {
+  console.log("API CALL:", `${config.baseURL}${config.url}`);
+  return config;
+});
 
-export const fetchMonthlyTrend = () => API.get("/dashboard/monthly-trend")
+// ===================== API CALLS ===================== //
 
-export const fetchPlatforms = () => API.get("/dashboard/platforms")
+export const fetchKPIs = () => API.get("/dashboard/kpi");
 
-export const fetchChannels = (platform:string) =>
-  API.get(`/dashboard/channels?platform=${platform}`)
+export const fetchMonthlyTrend = () =>
+  API.get("/dashboard/monthly-trend");
 
-export const fetchAlerts = () => API.get("/dashboard/alerts")
+export const fetchPlatforms = () =>
+  API.get("/dashboard/platforms");
 
-export const fetchMonthDuration = () => API.get("/dashboard/monthly-duration-trend")
+export const fetchChannels = (platform: string) =>
+  API.get(`/dashboard/channels`, {
+    params: { platform },
+  });
 
-export const fetchVideoDetails = (params: Record<string, any>) =>
-  API.get("/dashboard/video-details", { params })
+export const fetchAlerts = () =>
+  API.get("/dashboard/alerts");
+
+export const fetchMonthDuration = () =>
+  API.get("/dashboard/monthly-duration-trend");
+
+// ✅ FIXED TYPE (no any)
+export const fetchVideoDetails = (
+  params: Record<string, string | number>
+) =>
+  API.get("/dashboard/video-details", { params });
