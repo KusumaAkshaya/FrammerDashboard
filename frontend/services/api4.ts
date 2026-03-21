@@ -1,39 +1,41 @@
-import axios from "axios"
+import axios from "axios";
 
 const API = axios.create({
   baseURL: "http://127.0.0.1:8000/api"
-})
+});
 
 /* OUTPUT TYPE DISTRIBUTION */
-
-export const fetchOutputDistribution = () =>
-  API.get("/output/distribution")
+export const fetchOutputDistribution = async () => {
+  const res = await API.get("/output/distribution");
+  return res.data;
+};
 
 /* OUTPUT TREND */
-
-export const fetchOutputTrend = () =>
-  API.get("/output/trend")
-
+export const fetchOutputTrend = async () => {
+  const res = await API.get("/output/trend");
+  return res.data;
+};
 
 /* INPUT VS OUTPUT MATRIX */
-
-export const fetchInputOutputMatrix = () =>
-  API.get("/output/input-output")
-
+export const fetchInputOutputMatrix = async () => {
+  const res = await API.get("/output/input-output");
+  return res.data;
+};
 
 /* OUTPUT PUBLISH FUNNEL */
-
-export const fetchOutputPublishFunnel = () =>
-  API.get("/output/publish-funnel")
-
+export const fetchOutputPublishFunnel = async () => {
+  const res = await API.get("/output/publish-funnel");
+  return res.data;
+};
 
 /* CHANNEL OUTPUT BREAKDOWN */
-
-export const fetchChannelOutputBreakdown = () =>
-  API.get("/output/channel-breakdown")
-
+export const fetchChannelOutputBreakdown = async () => {
+  const res = await API.get("/output/channel-breakdown");
+  return res.data;
+};
 
 /* OUTPUT DURATION ANALYTICS */
-
-export const fetchOutputDurationStats = () =>
-  API.get("/output/duration-stats")
+export const fetchOutputDurationStats = async () => {
+  const res = await API.get("/output/duration-stats");
+  return res.data;
+};

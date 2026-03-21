@@ -90,7 +90,7 @@ export default function DistributionBarChart({
           <Bar
             dataKey="value"
             radius={[10, 10, 0, 0]}
-            onClick={(entry) => onSelect(entry.label)}
+            onClick={(entry: { label?: string; payload?: { label?: string; name?: string } }) => onSelect(entry.label || entry.payload?.label || entry.payload?.name)}
           >
             {formattedData.map((item) => {
               const isActive = activeLabel === item.label;

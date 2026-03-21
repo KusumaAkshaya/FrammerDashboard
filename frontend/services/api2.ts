@@ -1,82 +1,44 @@
-import axios from "axios"
+import axios from "axios";
+import { getApiUrl } from "../app/utils/apiConfig";
 
-const BASE_URL = "http://127.0.0.1:8000/api"
-
-// -------------------------------
-// Upload / Create / Publish trend
-// -------------------------------
-export const getUsageTrend = async (period: string) => {
-  const res = await axios.get(`${BASE_URL}/usage/trend?period=${period}`)
-  return res.data
-}
+const API = axios.create({
+  baseURL: getApiUrl() // Ensure this matches your working file exactly
+});
 
 // -------------------------------
-// Duration trend
+// Trend Endpoints
 // -------------------------------
-export const getDurationTrend = async (period: string) => {
-  const res = await axios.get(`${BASE_URL}/usage/duration-trend?period=${period}`)
-  return res.data
-}
+export const getUsageTrend = (period: string) => 
+  API.get(`/usage/trend?period=${period}`).then(res => res.data);
+
+export const getDurationTrend = (period: string) => 
+  API.get(`/usage/duration-trend?period=${period}`).then(res => res.data);
 
 // -------------------------------
-// Contributions (Top / Underused)
+// Contributions
 // -------------------------------
-export const getContributions = async (
+export const getContributions = (
   level: string,
   parent?: string,
   metric: string = "published",
   type: string = "top",
-  period: string = "month"   // 🔥 ADDED
+  period: string = "month"
 ) => {
+  // Use 'params' object for cleaner URL management
+  return API.get("/usage/contributions", {
+    params: { level, parent, metric, type, period }
+  }).then(res => res.data);
+};
 
-  let url = `/usage/contributions?level=${level}&metric=${metric}&type=${type}&period=${period}`
-
-  if (parent) {
-    url += `&parent=${parent}`
-  }
-
-  console.log("API CALL:", url)
-
-  const res = await axios.get(`${BASE_URL}${url}`)
-  return res.data
-}
+export const getUnderused = (level: string = "client", parent?: string, period: string = "month") => {
+  return getContributions(level, parent, "efficiency", "underused", period);
+};
 
 // -------------------------------
-// Underused (wrapper)
+// Distribution Endpoints
 // -------------------------------
-export const getUnderused = async (
-  level: string = "client",
-  parent?: string,
-  period: string = "month"   // 🔥 ADDED
-) => {
-  return getContributions(level, parent, "efficiency", "underused", period)
-}
+export const getPlatformDistribution = () => 
+  API.get("/usage/platform-distribution").then(res => res.data);
 
-// -------------------------------
-// Channel usage (uses usage trend endpoint)
-// -------------------------------
-export const getChannelUsage = async (period: string = "month") => {
-  // The backend does not currently expose a dedicated channel-usage endpoint.
-  // Reuse the usage trend endpoint for now.
-  return getUsageTrend(period)
-}
-
-export const channelUsage = async (period: string = "month") => {
-  return getUsageTrend(period)
-}
-
-// -------------------------------
-// Platform distribution
-// -------------------------------
-export const getPlatformDistribution = async () => {
-  const res = await axios.get(`${BASE_URL}/usage/platform-distribution`)
-  return res.data
-}
-
-// -------------------------------
-// Channel vs platform
-// -------------------------------
-export const getChannelPlatform = async () => {
-  const res = await axios.get(`${BASE_URL}/usage/channel-platform`)
-  return res.data
-}
+export const getChannelPlatform = () => 
+  API.get("/usage/channel-platform").then(res => res.data);
