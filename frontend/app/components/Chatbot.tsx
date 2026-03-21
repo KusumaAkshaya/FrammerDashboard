@@ -13,7 +13,7 @@ export default function Chatbot({
 }) {
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState<
-    { sender: "user" | "bot"; text: string; data?: any[]; columns?: string[]; sql?: string }[]
+    { sender: "user" | "bot"; text: string; data?: any; sql?: string; columns?: string[]; rowCount?: number }[]
   >([]);
   const [animation, setAnimation] = useState<any>(null);
 
@@ -48,7 +48,14 @@ export default function Chatbot({
 
       setMessages((prev) => [
         ...prev,
-        { sender: "bot", text: res.data.reply },
+        {
+          sender: "bot",
+          text: res.data.reply,
+          data: res.data.data,
+          sql: res.data.sql,
+          columns: res.data.columns,
+          rowCount: res.data.row_count
+        },
       ]);
     } catch {
       setMessages((prev) => [
@@ -105,7 +112,7 @@ export default function Chatbot({
                 marginBottom: "6px",
               }}
             >
-              <span
+              <div
                 style={{
                   background:
                     msg.sender === "user" ? "#7B61FF" : "#1C2541",
@@ -115,10 +122,95 @@ export default function Chatbot({
                   display: "inline-block",
                   fontWeight: 400,
                   fontSize: "14px",
+                  maxWidth: "80%",
                 }}
               >
-                {msg.text}
-              </span>
+                <div style={{ whiteSpace: "pre-wrap" }}>{msg.text}</div>
+
+                {/* Display SQL query if available */}
+                {msg.sql && (
+                  <div style={{
+                    marginTop: "8px",
+                    padding: "4px 8px",
+                    background: "#2a3441",
+                    borderRadius: "4px",
+                    fontSize: "12px",
+                    fontFamily: "monospace"
+                  }}>
+                    <strong>SQL:</strong> {msg.sql}
+                  </div>
+                )}
+
+                {/* Display data table if available */}
+                {msg.data && msg.data.length > 0 && msg.columns && (
+                  <div style={{
+                    marginTop: "8px",
+                    maxHeight: "200px",
+                    overflowY: "auto",
+                    border: "1px solid #4a5568",
+                    borderRadius: "4px"
+                  }}>
+                    <table style={{
+                      width: "100%",
+                      borderCollapse: "collapse",
+                      fontSize: "12px"
+                    }}>
+                      <thead>
+                        <tr style={{ background: "#2d3748" }}>
+                          {msg.columns.map((col, idx) => (
+                            <th key={idx} style={{
+                              padding: "4px 8px",
+                              textAlign: "left",
+                              borderBottom: "1px solid #4a5568",
+                              fontWeight: "bold"
+                            }}>
+                              {col}
+                            </th>
+                          ))}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {msg.data.slice(0, 10).map((row: any, rowIdx: number) => (
+                          <tr key={rowIdx} style={{
+                            background: rowIdx % 2 === 0 ? "#1a202c" : "#2d3748"
+                          }}>
+                            {msg.columns!.map((col, colIdx) => (
+                              <td key={colIdx} style={{
+                                padding: "4px 8px",
+                                borderBottom: "1px solid #4a5568"
+                              }}>
+                                {row[col]}
+                              </td>
+                            ))}
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                    {msg.data.length > 10 && (
+                      <div style={{
+                        padding: "4px 8px",
+                        background: "#2d3748",
+                        textAlign: "center",
+                        fontSize: "11px",
+                        color: "#a0aec0"
+                      }}>
+                        ... and {msg.data.length - 10} more rows
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {/* Display row count if available */}
+                {msg.rowCount !== undefined && (
+                  <div style={{
+                    marginTop: "4px",
+                    fontSize: "11px",
+                    color: "#a0aec0"
+                  }}>
+                    Total rows: {msg.rowCount}
+                  </div>
+                )}
+              </div>
             </div>
           ))}
         </div>

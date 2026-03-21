@@ -6,7 +6,7 @@ from routes.dashboard3_routes import router as dashboard3_router
 from routes.dashboard2_routes import router2 as dashboard2_router
 from routes.dashboard4_routes import router4 as dashboard4_router
 from routes.usage_routes import router as usage_router  
-
+from routes.chat_routes import router as chat_router
 app = FastAPI()
 
 # ✅ ADD THIS BLOCK
@@ -31,3 +31,4 @@ app.include_router(dashboard3_router, prefix="/api")
 app.include_router(dashboard2_router, prefix="/api")
 app.include_router(dashboard4_router, prefix="/api")
 app.include_router(usage_router, prefix="/api")  
+app.include_router(chat_router, prefix="/chat")
