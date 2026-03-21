@@ -2,12 +2,12 @@
 
 import axios from "axios";
 
-// ✅ Use environment variable (works in production)
+
 const API = axios.create({
   baseURL: `${process.env.NEXT_PUBLIC_API_URL}/api`,
 });
 
-// ✅ Optional: Debug (remove later if not needed)
+
 API.interceptors.request.use((config) => {
   console.log("API CALL:", `${config.baseURL}${config.url}`);
   return config;
