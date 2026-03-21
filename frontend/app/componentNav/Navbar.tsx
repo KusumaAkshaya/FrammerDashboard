@@ -15,7 +15,7 @@ export default function Navbar() {
   const pathname = usePathname()
 
   return (
-    <div className="sticky top-0 z-50 backdrop-blur-xl bg-[#071028]/70 border-b border-white/10">
+    <div className="sticky top-0 z-50 bg-[#071028] border-b border-white/10">
       <div className="max-w-[1400px] mx-auto px-6 py-3 flex gap-6 items-center">
 
         <h1 className="text-white font-semibold mr-6">
