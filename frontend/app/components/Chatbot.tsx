@@ -42,7 +42,7 @@ export default function Chatbot({
     setInput("");
 
     try {
-      const res = await axios.post("http://127.0.0.1:8000/chat", {
+      const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/chat`, {
         message: userMsg,
       });
 
